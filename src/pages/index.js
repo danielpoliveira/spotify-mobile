@@ -1,17 +1,14 @@
 import React                                      from 'react';
-import { StyleSheet, TouchableOpacity  }                            from 'react-native';
+import { View, Text, StyleSheet, Image }                 from 'react-native';
 import { NavigationContainer, DefaultTheme }      from '@react-navigation/native';
-import { createBottomTabNavigator, BottomTabBar }               from '@react-navigation/bottom-tabs';
-//import { createMaterialBottomTabNavigator }               from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs';
 import Ionicons                                   from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons                     from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
-import Home from './pages/home';
-import { View, Text } from 'react-native';
+import Home                                       from './home';
+import Search                                     from './search';
 
 const Tab = createBottomTabNavigator();
-//const Tab = createMaterialBottomTabNavigator();
 
 const setIcon = (iconName = '', color, size) => {
   
@@ -37,7 +34,6 @@ const setIcon = (iconName = '', color, size) => {
 
 const screenOptions = ({ route }) => ({
   tabBarIcon: ({ focused, color, size }) => {  
-
     const Icon = setIcon(route.name, color, size);
 
     return Icon;
@@ -65,11 +61,6 @@ const theme = {
   },
   
 }
-
-const Search = () => 
-<View>
-  <Text>Search Screen :)</Text>
-</View>
 
 const YourLib = () => 
 <View>
@@ -100,16 +91,28 @@ export default () =>
 
 
 const PlayerToggled = () => 
-<View style={styles.playerToggled}>
-  <View  style={styles.playerToggledAlbumMiniArt} />
-  <View style={{flexDirection: "row", justifyContent: "space-between", flex:1,}}>
-    <View style={{ flexDirection: "row",  flex:1, paddingLeft: 10, alignItems:"center"}}>
-      <Text style={{fontSize: 14, fontWeight: "bold" , color: "#FFFFFF"}} >Inner Space - Original Mix</Text>
-      <Text style={{fontSize: 14, fontWeight: "bold" , color: "#ADADAD"}}>. Apex</Text>
-    </View>
-    <View style={{ width: '25%', flexDirection: "row", alignItems: "center",  paddingHorizontal:10}}>
-      <MaterialCommunityIcons style={{marginRight: 5}} name="heart" size={30} color="#FFFFFF" />
-      <MaterialCommunityIcons name="pause" size={30} color="#FFFFFF" />
+<View >
+
+  <View style={{width: "100%", backgroundColor: "#999"}}>
+    <View style={{width: 120, backgroundColor: "#FFFFFF", height:2.5}} />
+  </View>
+
+  <View style={styles.playerToggled}>
+    
+    <Image  
+      style={styles.playerToggledAlbumMiniArt} 
+      source={{uri: 'https://i.scdn.co/image/ab67616d00001e0226f7709399913201ebe40eee'}} 
+    />
+
+    <View style={{flexDirection: "row", justifyContent: "space-between", flex:1,}}>
+      <View style={{ flexDirection: "row",  flex:1, paddingLeft: 10, alignItems:"center"}}>
+        <Text style={{fontSize: 14, fontWeight: "bold" , color: "#FFFFFF"}} >Cthulhu Sleeps</Text>
+        <Text style={{fontSize: 14, fontWeight: "bold" , color: "#ADADAD"}}> • deadmau5</Text>
+      </View>
+      <View style={{ width: '25%', flexDirection: "row", alignItems: "center",  paddingHorizontal:10}}>
+        <MaterialCommunityIcons style={{marginRight: 5}} name="heart" size={25} color="#1CB954" />
+        <MaterialCommunityIcons name="pause" size={30} color="#FFFFFF" />
+      </View>
     </View>
   </View>
 </View>
@@ -124,6 +127,6 @@ const styles = StyleSheet.create({
 
   playerToggledAlbumMiniArt: {
     width: 65, height: '100%',
-    backgroundColor: "yellow"
+    //backgroundColor: "#acacac"
   }
 })
