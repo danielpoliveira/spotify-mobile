@@ -1,23 +1,17 @@
-import React                        from 'react';
-import { 
-  View,  Text, 
-  StyleSheet, StatusBar,
-}                                   from "react-native";
+import React                          from 'react';
+import { View, StyleSheet, StatusBar} from "react-native";
 
-import BottomTabs from './Tabs';
+import BottomTabs                     from './pages';
 
-export default () => (
-<>
-  <View style={styles.appContainer}>
-    <StatusBar backgroundColor="#121212"  animated={true} showHideTransition="fade"  translucent={true} />
-    <BottomTabs />
-  </View>
-</>
-)
+export default () => 
+<View style={styles.appContainer}>
+  <StatusBar backgroundColor="#121212"  animated={true} showHideTransition="fade"  translucent={true} />
+  <BottomTabs />
+</View>
 
 const styles  = StyleSheet.create({
-  appContainer: {
+  appContainer: { 
     flex: 1,
-    backgroundColor: "#121212",
-  }
+    paddingTop: 20,
+  },
 })
