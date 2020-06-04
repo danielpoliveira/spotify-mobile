@@ -1,17 +1,16 @@
-import React                          from 'react';
-import { View, StyleSheet, StatusBar} from "react-native";
+import React               from 'react';
+import { View, StyleSheet} from "react-native";
 
-import BottomTabs                     from './pages';
+import Routes              from './pages/routes';
 
 export default () => 
 <View style={styles.appContainer}>
-  <StatusBar backgroundColor="#121212"  animated={true} showHideTransition="fade"  translucent={true} />
-  <BottomTabs />
+  <Routes />
 </View>
 
 const styles  = StyleSheet.create({
   appContainer: { 
     flex: 1,
-    paddingTop: 20,
+    //paddingTop: 20,
   },
 })

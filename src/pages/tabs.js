@@ -1,5 +1,5 @@
 import React                                      from 'react';
-import { View, Text, StyleSheet, Image }                 from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity }          from 'react-native';
 import { NavigationContainer, DefaultTheme }      from '@react-navigation/native';
 import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs';
 import Ionicons                                   from 'react-native-vector-icons/Ionicons';
@@ -52,16 +52,6 @@ const tabBarOptions = {
   }
 }
 
-const theme = {
-  dark: true,
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: '#121212',
-  },
-  
-}
-
 const YourLib = () => 
 <View>
   <Text>Your Library :D</Text>
@@ -74,36 +64,33 @@ const Premium = () =>
 
 const MyBottomTabBar = props =>
 <>
-  <PlayerToggled />
+  <PlayerToggled navigation={props.navigation} />
   <BottomTabBar {...props} />
 </>
   
+export default ({ navigation }) =>  
+<Tab.Navigator 
+  tabBar={ props =><MyBottomTabBar {...props} navigation={navigation} /> } 
+  screenOptions={screenOptions} 
+  tabBarOptions={tabBarOptions} 
+>
+  <Tab.Screen name="Início"         component={Home} />
+  <Tab.Screen name="Buscar"         component={Search} />
+  <Tab.Screen name="Sua Biblioteca" component={YourLib} />
+  <Tab.Screen name="Premium"        component={Premium} />
+</Tab.Navigator>
 
-export default () =>
-<NavigationContainer theme={theme} >
-  <Tab.Navigator tabBar={props =><MyBottomTabBar {...props} />} screenOptions={screenOptions} tabBarOptions={tabBarOptions}  >
-    <Tab.Screen name="Início"         component={Home} />
-    <Tab.Screen name="Buscar"         component={Search} />
-    <Tab.Screen name="Sua Biblioteca" component={YourLib} />
-    <Tab.Screen name="Premium"        component={Premium} />
-  </Tab.Navigator>
-</NavigationContainer>
-
-
-const PlayerToggled = () => 
-<View >
+const PlayerToggled = ({ navigation }) => 
+<TouchableOpacity onPress={() => navigation.navigate('PlayerView')} >
 
   <View style={{width: "100%", backgroundColor: "#999"}}>
     <View style={{width: 120, backgroundColor: "#FFFFFF", height:2.5}} />
   </View>
 
   <View style={styles.playerToggled}>
-    
-    <Image  
-      style={styles.playerToggledAlbumMiniArt} 
+    <Image style={styles.playerToggledAlbumMiniArt} 
       source={{uri: 'https://i.scdn.co/image/ab67616d00001e0226f7709399913201ebe40eee'}} 
     />
-
     <View style={{flexDirection: "row", justifyContent: "space-between", flex:1,}}>
       <View style={{ flexDirection: "row",  flex:1, paddingLeft: 10, alignItems:"center"}}>
         <Text style={{fontSize: 14, fontWeight: "bold" , color: "#FFFFFF"}} >Cthulhu Sleeps</Text>
@@ -115,7 +102,8 @@ const PlayerToggled = () =>
       </View>
     </View>
   </View>
-</View>
+
+</TouchableOpacity>
 
 const styles = StyleSheet.create({
   playerToggled: {

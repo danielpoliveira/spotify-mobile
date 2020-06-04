@@ -5,16 +5,9 @@ import {
   FlatList, SafeAreaView, ScrollView, 
 }                                                        from 'react-native';
 import Ionicons                                          from 'react-native-vector-icons/Ionicons';
-import axios                                             from 'axios';
-import { set } from 'react-native-reanimated';
+import api                                               from '../../services/api';
 
 YellowBox.ignoreWarnings([ 'VirtualizedLists should never be nested' ]);
-
-const TOKEN = 'BQCHcDjvndFhY07GYVEmR7l9NwaBeQJaag7sUvlf9lZ1R7kdpFXupzYiwzPQfpgqkQRZoILLQQv_8bKzTEyMxexlzliNClxeCBLtz3DafMmFTx4z9FDCccrAWCHUG-ZQuUyS7dPg-qxguyRba0OFC5mXByZj_S0tFlJi';
-
-const config = {
-  headers: { Authorization: `Bearer ${TOKEN}` }
-};
 
 const FAV_GENDER_DATA = [
   {id: "00", name: "Hip Hop"},
@@ -34,13 +27,13 @@ export default () => {
 
   useEffect(() => {
     const loadCategories  = async () => {
-      const res = await axios.get("https://api.spotify.com/v1/browse/categories?country=BR&locale=pt_BR&limit=20", config);
+      const res = await api.get("/browse/categories?country=BR&locale=pt_BR&limit=20");
       const items = res.data.categories.items;
 
       setCategories(items)
 
       const aux = items.map(async function(item) {      
-        return await axios.get(`https://api.spotify.com/v1/browse/categories/${item.id}/playlists?limit=1`, config)
+        return await api.get(`/browse/categories/${item.id}/playlists?limit=1`)
                           .then(res => ({ [item.id]: res.data.playlists.items[0].images[0].url }));
       });
 
