@@ -10,7 +10,7 @@ export default () => (
     
     <View 
       style={{flexDirection: "row", justifyContent: "space-between",
-      paddingVertical: 12.5,
+      paddingVertical: 15,
       alignItems: "center"}}
     >
       <Ionicons name="ios-arrow-down" size={30} color={"#FFFFFF"} />
@@ -38,7 +38,7 @@ export default () => (
           <View style={{backgroundColor: "#FFFFFF", width: 8, height: 8, borderRadius: 100, left: 48}} />
         </View>
       </View>
-      <View style={{flexDirection: "row", justifyContent: "space-between", paddingVertical: 3}} >
+      <View style={{flexDirection: "row", justifyContent: "space-between", paddingVertical: 7.5}} >
         <Text style={{color: "#FFFFFF", fontSize: 12}}>0:05</Text>
         <Text style={{color: "#FFFFFF", fontSize: 12}}>4:02</Text>
       </View>
