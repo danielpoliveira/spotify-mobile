@@ -16,7 +16,7 @@ const setIcon = (iconName = '', color, size) => {
   let iconSelect = 0;
 
   switch(iconName){
-    case 'Início':           iconName = 'ios-home';                     break;       
+    case 'Início':           iconName = 'home';          iconSelect=1;  break;       
     case 'Buscar':           iconName = 'ios-search';                   break;
     case 'Sua Biblioteca':   iconName = 'library-music'; iconSelect=1;  break;
     case 'Premium':          iconName = 'spotify'  ;     iconSelect=1;  break;

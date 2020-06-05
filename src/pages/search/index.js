@@ -27,7 +27,7 @@ export default () => {
 
   useEffect(() => {
     const loadCategories  = async () => {
-      const res = await api.get("/browse/categories?country=BR&locale=pt_BR&limit=20");
+      const res = await api.get("/browse/categories?country=BR&locale=pt_BR&limit=25");
       const items = res.data.categories.items;
 
       setCategories(items)
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
 
   searchHeaderView: {
     paddingTop          : 80,
+    marginBottom        : 7.5, 
     alignItems          : "center",
   },
 
