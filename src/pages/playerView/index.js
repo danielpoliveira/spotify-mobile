@@ -70,19 +70,20 @@ return (<View style={{flex:1, backgroundColor: "#3C4A64", paddingHorizontal: 20}
     <Text style={{fontSize: 17, color: "#CFCFCF"}} >deadmau5</Text>
   </View>
 
-  <View style={{flexDirection: "column", paddingHorizontal: 10, paddingTop: 10}}>
+  <View style={{flexDirection: "column", paddingHorizontal: 10, }}>
     <PanGestureHandler onGestureEvent={handleGesture} >
-    <Animated.View 
-      onTouchEnd={ e => absoluteX.setValue(e.nativeEvent.locationX) }
-      style={{width:'100%', height: 4, margin: 1,backgroundColor: "#FFFFFF", overflow: 'hidden'}} >
-      
-      <Animated.View 
-        style={{
-          flex:1, backgroundColor: "#333333ff", 
-          justifyContent: "center",
-          transform: [{ translateX: absoluteX }] 
-        }} 
-      />
+    <Animated.View onTouchEnd={ e => absoluteX.setValue(e.nativeEvent.locationX) }>
+
+      <View style={{width:'100%', height: 3.5,backgroundColor: "#FFFFFF", marginVertical: 10, overflow: 'hidden'}} >
+        <Animated.View 
+          style={{
+            flex:1, backgroundColor: "#333333ff", 
+            justifyContent: "center",
+            transform: [{ translateX: absoluteX }] 
+          }} 
+        />
+
+      </View>
       
     </Animated.View>
       </PanGestureHandler>
