@@ -1,6 +1,7 @@
 import React                                      from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity }          from 'react-native';
-import { NavigationContainer, DefaultTheme }      from '@react-navigation/native';
+import { View, Text, StyleSheet, Image, 
+         TouchableOpacity }                       from 'react-native';
+
 import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs';
 import Ionicons                                   from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons                     from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,10 +9,10 @@ import MaterialCommunityIcons                     from 'react-native-vector-icon
 import Home                                       from './home';
 import Search                                     from './search';
 
+
 const Tab = createBottomTabNavigator();
 
 const setIcon = (iconName = '', color, size) => {
-  
   let iconSelect = 0;
 
   switch(iconName){
@@ -62,36 +63,30 @@ const Premium = () =>
   <Text>Be Premium 8)</Text>
 </View>
 
-const MyBottomTabBar = props =>
-<>
-  <PlayerToggled navigation={props.navigation} />
-  <BottomTabBar {...props} />
-</>
-  
-export default ({ navigation }) =>  
-<Tab.Navigator 
-  tabBar={ props =><MyBottomTabBar {...props} navigation={navigation} /> } 
-  screenOptions={screenOptions} 
-  tabBarOptions={tabBarOptions} 
->
-  <Tab.Screen name="Início"         component={Home} />
-  <Tab.Screen name="Buscar"         component={Search} />
-  <Tab.Screen name="Sua Biblioteca" component={YourLib} />
-  <Tab.Screen name="Premium"        component={Premium} />
-</Tab.Navigator>
+export default () => (
+  <Tab.Navigator 
+    tabBar={ props => <MyBottomTabBar {...props}/> } 
+    screenOptions={screenOptions} tabBarOptions={tabBarOptions} 
+    children={props => ({ ...props }) } 
+  >
+    <Tab.Screen name="Início"         component={Home}   />
+    <Tab.Screen name="Buscar"         component={Search} />
+    <Tab.Screen name="Sua Biblioteca" component={YourLib} />
+    <Tab.Screen name="Premium"        component={Premium} />
+  </Tab.Navigator>
+);
 
 const PlayerToggled = ({ navigation }) => 
 <TouchableOpacity 
-  onPress={() => navigation.navigate('PlayerView', 
-    {
-      albumArtUri: 'https://i.scdn.co/image/ab67616d00001e0226f7709399913201ebe40eee',
-      artist: 'deadmau5',
-      music_name: 'Cthulhu Sleeps',
-      playlist_name: 'Daily Mix 1'
-    }
-  )} 
+  onPress={() => 
+    navigation.navigate('PlayerView', {
+        albumArtUri: 'https://i.scdn.co/image/ab67616d00001e0226f7709399913201ebe40eee',
+        artist: 'deadmau5',
+        music_name: 'Cthulhu Sleeps',
+        playlist_name: 'Daily Mix 1'
+    })
+  } 
 >
-
   <View style={{width: "100%", backgroundColor: "#999"}}>
     <View style={{width: 120, backgroundColor: "#FFFFFF", height:2.5}} />
   </View>
@@ -113,6 +108,12 @@ const PlayerToggled = ({ navigation }) =>
   </View>
 
 </TouchableOpacity>
+
+const MyBottomTabBar = props => 
+<>
+  <PlayerToggled navigation={props.navigation} />
+  <BottomTabBar {...props} />
+</>
 
 const styles = StyleSheet.create({
   playerToggled: {

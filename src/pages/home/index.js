@@ -1,10 +1,9 @@
 import React                                  from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-
 import AntIcon                                from 'react-native-vector-icons/AntDesign';
-import MaterialCommunityIcons                 from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default () => 
+  
   <ScrollView style={styles.listContainer} showsVerticalScrollIndicator={false} >
 
     <View style={{marginHorizontal: 10,marginBottom: 20,  alignItems: "flex-end"}}>
@@ -221,7 +220,7 @@ export default () =>
       </ScrollView>
     </View> 
   </ScrollView>
-
+  
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -248,3 +247,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   }
 })
+

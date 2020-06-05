@@ -11,6 +11,5 @@ export default () =>
 const styles  = StyleSheet.create({
   appContainer: { 
     flex: 1,
-    //paddingTop: 20,
   },
 })

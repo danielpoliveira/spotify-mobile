@@ -10,8 +10,8 @@ const Stack = createStackNavigator();
 const Routes = () => 
 <NavigationContainer theme={theme} >
   <Stack.Navigator>
-    <Stack.Screen name="Tabs"       component={Tabs}        options={{ headerShown: false, headerTransparent: true }} />
-    <Stack.Screen name="PlayerView" component={PlayerView}  options={{ headerShown: false, headerTransparent: true }} />
+    <Stack.Screen name="Tabs"       component={Tabs}        options={{ headerShown: false,  }} />
+    <Stack.Screen name="PlayerView" component={PlayerView}  options={{ headerShown: false,  }} />
   </Stack.Navigator>
 </NavigationContainer>
 

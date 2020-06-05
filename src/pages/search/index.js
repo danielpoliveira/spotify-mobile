@@ -54,8 +54,6 @@ export default () => {
     
   </View>
       
-
-
   return (
     <SafeAreaView style={styles.container}>
 
