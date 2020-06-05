@@ -81,7 +81,16 @@ export default ({ navigation }) =>
 </Tab.Navigator>
 
 const PlayerToggled = ({ navigation }) => 
-<TouchableOpacity onPress={() => navigation.navigate('PlayerView')} >
+<TouchableOpacity 
+  onPress={() => navigation.navigate('PlayerView', 
+    {
+      albumArtUri: 'https://i.scdn.co/image/ab67616d00001e0226f7709399913201ebe40eee',
+      artist: 'deadmau5',
+      music_name: 'Cthulhu Sleeps',
+      playlist_name: 'Daily Mix 1'
+    }
+  )} 
+>
 
   <View style={{width: "100%", backgroundColor: "#999"}}>
     <View style={{width: 120, backgroundColor: "#FFFFFF", height:2.5}} />
