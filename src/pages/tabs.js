@@ -8,6 +8,7 @@ import MaterialCommunityIcons                     from 'react-native-vector-icon
 
 import Home                                       from './home';
 import Search                                     from './search';
+import YourLibrary                                from './yourLibrary';
 
 
 const Tab = createBottomTabNavigator();
@@ -53,11 +54,6 @@ const tabBarOptions = {
   }
 }
 
-const YourLib = () => 
-<View>
-  <Text>Your Library :D</Text>
-</View>
-
 const Premium = () => 
 <View>
   <Text>Be Premium 8)</Text>
@@ -71,7 +67,7 @@ export default () => (
   >
     <Tab.Screen name="Início"         component={Home}   />
     <Tab.Screen name="Buscar"         component={Search} />
-    <Tab.Screen name="Sua Biblioteca" component={YourLib} />
+    <Tab.Screen name="Sua Biblioteca" component={YourLibrary} />
     <Tab.Screen name="Premium"        component={Premium} />
   </Tab.Navigator>
 );
