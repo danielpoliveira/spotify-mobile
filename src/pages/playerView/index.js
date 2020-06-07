@@ -1,19 +1,28 @@
 import React                                   from 'react';
+import { bindActionCreators }                  from 'redux';
+import { connect }                             from 'react-redux';
 import { View, Text, Image, TouchableOpacity, 
-         Animated, StyleSheet, Dimensions }    from 'react-native';
+         Animated, Dimensions }                from 'react-native';
 import { PanGestureHandler, State }            from 'react-native-gesture-handler';
 import Ionicons                                from 'react-native-vector-icons/Ionicons';
 import MaterialIcons                           from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons                  from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import { changeMusic  }                        from '../actions';
+
+
 const WINDOW = Dimensions.get("window");
 
-export default ({ navigation, route }) => {
+const PlayerView = (props) => {
+  const { navigation, route, index } = props;
+
   let opened = false;
   let position = 0;
   let offset = 0;
 
-  const absoluteX  = new Animated.Value(0);
+  const { MUSIC_PLAYER_DATA } = route.params;
+
+  const absoluteX             = new Animated.Value(0);
   const AlbumArtTranslationX  = new Animated.Value(0);
 
   const handleTimeMusicGesture = Animated.event([{
@@ -29,7 +38,7 @@ export default ({ navigation, route }) => {
   });
 
   const handleAlbumArtgesture = Animated.event([{
-    nativeEvent: { translationX: AlbumArtTranslationX}
+    nativeEvent: { translationX: AlbumArtTranslationX }
   }], { 
     useNativeDriver: true,
   });
@@ -40,12 +49,12 @@ export default ({ navigation, route }) => {
       offset                += translationX;
 
       if(translationX >= 80) {
-        opened   = !opened;
-        position = opened? 1: 0;
+        opened   =  MUSIC_PLAYER_DATA[index-1]? 1:0;
+        position = opened? -1: 0;
       } 
       else if(translationX <= -80){
-        opened   = !opened;
-        position = opened? -1: 0;
+        opened   =  MUSIC_PLAYER_DATA[index+1]? 1:0;
+        position = opened? 1: 0;
       }
       else {
         AlbumArtTranslationX.setValue(offset);
@@ -54,13 +63,20 @@ export default ({ navigation, route }) => {
       }
        
       Animated.timing(AlbumArtTranslationX, {
-        toValue: opened? position * 300 : 0,
+        toValue: opened? -position * 400 : 0,
         duration: 200,
         useNativeDriver: true,
       }).start(() => {
-        offset = opened? position * 300 : 0;
+        offset = opened? -position * 400 : 0;
         AlbumArtTranslationX.setOffset(offset);
         AlbumArtTranslationX.setValue(0);
+
+        console.log(index)
+        
+        opened && props.changeMusic(index+position)
+
+       
+        console.log(index)
       });
     }
   }
@@ -97,20 +113,20 @@ export default ({ navigation, route }) => {
             elevation: 25,
 
             transform: [{ translateX: AlbumArtTranslationX.interpolate({
-              inputRange: [-300, 300],
-              outputRange: [-300, 300],
+              inputRange: [-400, 400],
+              outputRange: [-400, 400],
               extrapolate: "clamp",
             }) }]
             
           }}>
-          <Image style={{width: 360, height: 360,}} source={{uri: route.params.albumArtUri}} />
+            <Image style={{width: 360, height: 360,}} source={{uri: MUSIC_PLAYER_DATA[index].album_art}} />
           </Animated.View>
         </PanGestureHandler>
       </View>
 
       <View style={{paddingHorizontal: 10, paddingVertical: 12.5}}>
-        <Text style={{color: "#FFFFFF", fontSize: 20, fontWeight: "bold"}} >{route.params.music_name}</Text>
-        <Text style={{fontSize: 17, color: "#CFCFCF"}} >{route.params.artist}</Text>
+        <Text style={{color: "#FFFFFF", fontSize: 20, fontWeight: "bold"}} >{MUSIC_PLAYER_DATA[index].music}</Text>
+        <Text style={{fontSize: 17, color: "#CFCFCF"}} >{MUSIC_PLAYER_DATA[index].artist}</Text>
       </View>
 
       <View style={{flexDirection: "column", paddingHorizontal: 10, }}>
@@ -179,3 +195,8 @@ export default ({ navigation, route }) => {
     </View>
   );
 }
+
+const mapStateToProps = state => ({ index: state.player.index });
+const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerView);

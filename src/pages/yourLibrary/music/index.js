@@ -3,7 +3,7 @@ import { View, Text }                    from 'react-native';
 import { FlatList, }                     from 'react-native-gesture-handler';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-import MyTabBar                          from '../../../components/myTabBar';
+import MyTabBar                          from '../../../components/myTopTabBar'
 
 const Tab = createMaterialTopTabNavigator();
 

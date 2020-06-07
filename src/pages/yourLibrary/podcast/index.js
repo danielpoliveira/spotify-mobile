@@ -4,7 +4,7 @@ import { TouchableOpacity }              from 'react-native-gesture-handler';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MaterialCommunityIcons            from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import MyTabBar                          from '../../../components/myTabBar';
+import MyTabBar                          from '../../../components/myTopTabBar';
 
 const Tab = createMaterialTopTabNavigator();
 

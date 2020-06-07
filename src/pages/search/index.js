@@ -1,11 +1,18 @@
 import React, { useState, useEffect }                    from 'react';
-import { 
-  YellowBox,
-  TouchableOpacity, View, Text, Image, StyleSheet, 
-  FlatList, SafeAreaView, ScrollView, 
-}                                                        from 'react-native';
 import Ionicons                                          from 'react-native-vector-icons/Ionicons';
 import api                                               from '../../services/api';
+
+import { 
+  YellowBox, 
+  TouchableOpacity, 
+  View, 
+  Text, 
+  Image, 
+  StyleSheet, 
+  FlatList, 
+  SafeAreaView, 
+  ScrollView 
+} from 'react-native';
 
 YellowBox.ignoreWarnings([ 'VirtualizedLists should never be nested' ]);
 
