@@ -10,6 +10,12 @@ import Search                                     from './search';
 import YourLibrary                                from './yourLibrary';
 import { PanGestureHandler, State, TouchableOpacity } from 'react-native-gesture-handler';
 
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { changeMusic } from './actions';
+
 YellowBox.ignoreWarnings([ '`useNativeDriver` was not specified.' ]);
 
 const Tab = createBottomTabNavigator();
@@ -66,9 +72,11 @@ const Premium = () =>
   <Text>Be Premium 8)</Text>
 </View>
 
-export default () => {
+const Tabs = props => {
   const PlayerToggled = ({ navigation }) => {
-    const [index, setIndex] = useState(0);
+    //const [index, setIndex] = useState(0);
+
+    const { index } = props;
 
     let opened = false;
     let position = 0;
@@ -114,7 +122,9 @@ export default () => {
           MusicTranslateX.setOffset(offset);
           MusicTranslateX.setValue(0);
 
-          opened && setIndex(index+position)
+          opened && props.changeMusic(index+position)
+
+        //  opened && setIndex(index+position)
           
           console.log(index)
           console.log(index+position)
@@ -127,9 +137,15 @@ export default () => {
       <View 
         onTouchEnd={
           () => navigation.navigate('PlayerView', {
-            albumArtUri: MUSIC_PLAYER_DATA[index].album_art,
-            artist: MUSIC_PLAYER_DATA[index].artist,
-            music_name: MUSIC_PLAYER_DATA[index].music,
+            
+            MUSIC_PLAYER_DATA,
+            index,
+            //setIndex,
+            
+            
+            //albumArtUri: MUSIC_PLAYER_DATA[index].album_art,
+            //artist: MUSIC_PLAYER_DATA[index].artist,
+            //music_name: MUSIC_PLAYER_DATA[index].music,
             playlist_name: 'Daily Mix 1'
           })
         } 
@@ -211,3 +227,8 @@ const styles = StyleSheet.create({
     //backgroundColor: "#acacac"
   }
 })
+
+const mapStateToProps = state => ({ index: state.player.index });
+const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
