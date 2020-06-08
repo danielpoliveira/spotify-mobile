@@ -34,7 +34,13 @@ export default () => {
 
   useEffect(() => {
     const loadCategories  = async () => {
-      const res = await api.get("/browse/categories?country=BR&locale=pt_BR&limit=25");
+      const res = await api.get("/browse/categories", {
+        params: {
+          country: "BR",
+          locale: "pt_BR",
+          limit: 25,
+        }
+      });
       const items = res.data.categories.items;
 
       setCategories(items)

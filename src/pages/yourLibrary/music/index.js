@@ -41,8 +41,6 @@ const ListComponent = props => {
       image_uri = title = subtitle = null;
   }
 
-  if(type==="album") console.log(props.item.album.artists[0].name)
-
   return (
     <View style={{ flexDirection: "row", width: "100%", marginBottom: 16,}} >
       <Image source={{uri: image_uri}} style={[ props.isArtist? { borderRadius: 100 } : null, { width: 64,height: 64, backgroundColor: "gray" }]} />
@@ -90,7 +88,6 @@ const Playlists = () => {
       <FlatList disableScrollViewPanResponder data={playlists} keyExtractor={item => item.id} renderItem={item => < ListComponent {...item} type="playlist" />} />
     </View>
   );
-
 }
 
 const Albums = () => {
@@ -120,7 +117,7 @@ const Artists = () => {
 
   useEffect(() => {
     const loadArtists = async () => {
-      const res = await api.get("/me/following", {params: {type: "artist"} } )
+      const res = await api.get("/me/following", { params: { type: "artist" }});
 
       const { artists } = res.data;
 
