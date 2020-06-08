@@ -11,35 +11,37 @@ YellowBox.ignoreWarnings([ 'Each child in a list should have a unique "key" prop
 
 const Tab = createMaterialTopTabNavigator();
 
-const SubtitleIcon = ({ type }) =>
-type==="playlist"?
-<>
-  <View style={{width: 17,height: 12, borderRadius:2, marginRight: 5,backgroundColor: "#CCC", alignItems: "center", justifyContent: "center"}}>
-      <Ionicons name="ios-shuffle" size={15} color="#222"/>
-  </View>
-
-  <Text style={{color: "#FFFFFF", fontSize: 12}} >de </Text>
-</>
-: null
-
-
 const ListComponent = props => {
   const { type } = props;
-  
-  const image_uri = 
-  type === 'playlist' || type === 'artist'?  props.item.images[0].url:
-  type === 'album'?                          props.item.album.images[0].url:
-  null
 
-  const title = 
-  type === 'playlist' || type === 'artist' ? props.item.name:
-  type === 'album'?                          props.item.album.name:
-  null;
-  
-  const subtitle = 
-  type === 'playlist'?                       props.item.owner.display_name: 
-  type === 'album?'  ?                       props.item.album.artists[0].name: 
-  null;
+  let image_uri = undefined;
+  let title     = undefined;
+  let subtitle  = undefined;
+
+  switch(type){
+    case 'playlist': 
+      image_uri = props.item.images[0].url;
+      title     = props.item.name;
+      subtitle  = props.item.owner.display_name;
+      break;
+      
+    case 'album'   :
+      image_uri = props.item.album.images[0].url;
+      title     = props.item.album.name;
+      subtitle  = props.item.album.artists[0].name;
+    break;
+
+    case 'artist'  :
+      image_uri = props.item.images[0].url;
+      title     = props.item.name;
+      subtitle  = null;
+    break;
+
+    default:
+      image_uri = title = subtitle = null;
+  }
+
+  if(type==="album") console.log(props.item.album.artists[0].name)
 
   return (
     <View style={{ flexDirection: "row", width: "100%", marginBottom: 16,}} >
@@ -48,11 +50,17 @@ const ListComponent = props => {
       <View style={{flex:1,flexDirection: "column", justifyContent: "center", paddingLeft: 10 }} >
         <Text style={{color: "#FFFFFF", fontSize: 16,fontWeight: "bold"}} >{title}</Text>
 
-        { 
-          type !== 'artist' &&
+        { type !== 'artist' &&
 
           <View style={{flexDirection: "row", alignItems: "center"}} >
-            <SubtitleIcon type={type} />        
+            <View style={{width: 17,height: 12, borderRadius:2, marginRight: 5,backgroundColor: "#CCC", alignItems: "center", justifyContent: "center"}}>
+              <Ionicons name="ios-shuffle" size={15} color="#222"/>
+            </View>
+
+            { type === 'playlist' &&
+              <Text style={{color: "#FFFFFF", fontSize: 12}} >de </Text>
+            }
+
             <Text style={{color: "#FFFFFF", fontSize: 14}} >{subtitle}</Text> 
           </View>
         }
@@ -71,8 +79,7 @@ const Playlists = () => {
 
       const { items } = res.data;
 
-      if(items.length)
-        setPlaylists(items);
+      items.length && setPlaylists(items);
     }
 
     loadPlaylists();
@@ -95,8 +102,7 @@ const Albums = () => {
 
       const { items } = res.data;
 
-      if(items.length)
-        setAlbums(items);
+      items.length && setAlbums(items);
     }
 
     loadAlbums();
