@@ -17,8 +17,9 @@ let logged = false;
 
 const Login = ({ navigation }) => {
   const getParams = async url => {
-    const code = /code=([^&]+)/.exec(url)[1]; 
-    
+    const queryParams = /code=([^&]+)/.exec(url);
+    const code        = queryParams? queryParams[1] : undefined; 
+
     if(logged == false && code){
       logged = true;
       console.log('valor de logged: ----> ', logged);
@@ -42,8 +43,7 @@ const Login = ({ navigation }) => {
 
       }).catch( error => {
         console.log('aqui', error.response);
-      })
-      
+      }) 
     }
   }
 
