@@ -51,7 +51,7 @@ const MyTabBar = ({ state, descriptors, navigation, position }) => (
           onPress={onPress}
           onLongPress={onLongPress}
           style={[
-            isFocused? { borderColor: "green", borderBottomWidth: 2}:undefined,
+            isFocused? { borderColor: "#1CB954", borderBottomWidth: 2}:undefined,
             { marginRight: 20, paddingBottom: 6, marginBottom: 8 }]}
         >
           <Animated.Text style={{ opacity, color: "#FFFFFF", fontSize: 17 }}>
