@@ -4,12 +4,14 @@ import { createStackNavigator }              from '@react-navigation/stack';
 
 import Tabs                                  from './tabs';
 import PlayerView                            from './playerView';
+import Login                                 from './login';
 
 const Stack = createStackNavigator();
 
 const Routes = () => 
 <NavigationContainer theme={theme} >
   <Stack.Navigator>
+    <Stack.Screen name="Login"      component={Login}       options={{ headerShown: false,  }} />
     <Stack.Screen name="Tabs"       component={Tabs}        options={{ headerShown: false,  }} />
     <Stack.Screen name="PlayerView" component={PlayerView}  options={{ headerShown: false,  }} />
   </Stack.Navigator>
