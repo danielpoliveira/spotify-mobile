@@ -16,14 +16,13 @@ import {
 let logged = false;
 
 const Login = ({ navigation }) => {
-  const getParams = async url => {
+  const checkURL = async url => {
     const queryParams = /code=([^&]+)/.exec(url);
     const code        = queryParams? queryParams[1] : undefined; 
 
     if(logged == false && code){
       logged = true;
-      console.log('valor de logged: ----> ', logged);
-
+      
       const params  = setParams(code);
       const access  = 'Basic ' + new Buffer(client_id +':'+ secret_id).toString('base64');
 
@@ -49,7 +48,7 @@ const Login = ({ navigation }) => {
 
   return (
     <WebView 
-      onNavigationStateChange={e => getParams(e.url)} 
+      onNavigationStateChange={e => checkURL(e.url)} 
       source={{ uri: `${url_login}/authorize?response_type=code&client_id=${client_id}&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(redirect_uri)}` }} 
     />
   )
