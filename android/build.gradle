@@ -27,12 +27,6 @@ allprojects {
         mavenLocal()
 
         maven {
-            // Android JSC is installed from npm
-            url("$rootDir/../node_modules/jsc-android/dist")
-        }
-
-
-        maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
         }
@@ -49,9 +43,6 @@ allprojects {
         jcenter()
         maven { url 'https://www.jitpack.io' }
         
-        flatDir {
-          dirs 'src/main/libs'
-        }
     }
 }
 

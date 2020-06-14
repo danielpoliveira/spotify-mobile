@@ -12,7 +12,7 @@ YellowBox.ignoreWarnings([ 'Each child in a list should have a unique "key" prop
 const Tab = createMaterialTopTabNavigator();
 
 const ListComponent = props => {
-  const { type } = props;
+  const { type ,navigation} = props;
 
   let image_uri = undefined;
   let title     = undefined;
@@ -42,7 +42,9 @@ const ListComponent = props => {
   }
 
   return (
-    <View style={{ flexDirection: "row", width: "100%", marginBottom: 16,}} >
+    <View onTouchEnd={() => navigation.navigate('Playlist')}
+      style={{ flexDirection: "row", width: "100%", marginBottom: 16,}} 
+    >
       <Image source={{uri: image_uri}} style={[ props.isArtist? { borderRadius: 100 } : null, { width: 64,height: 64, backgroundColor: "gray" }]} />
       
       <View style={{flex:1,flexDirection: "column", justifyContent: "center", paddingLeft: 10 }} >
@@ -68,7 +70,7 @@ const ListComponent = props => {
   );
 }
 
-const Playlists = () => {
+const Playlists = ({ navigation }) => {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
@@ -85,12 +87,12 @@ const Playlists = () => {
 
   return (
     <View>
-      <FlatList disableScrollViewPanResponder data={playlists} keyExtractor={item => item.id} renderItem={item => < ListComponent {...item} type="playlist" />} />
+      <FlatList disableScrollViewPanResponder data={playlists} keyExtractor={item => item.id} renderItem={item => < ListComponent {...item} navigation={navigation} type="playlist" />} />
     </View>
   );
 }
 
-const Albums = () => {
+const Albums = ({ navigation }) => {
   const [albums, setAlbums] = useState([]);
 
   useEffect(() => {
@@ -107,12 +109,12 @@ const Albums = () => {
 
   return (
     <View>
-      <FlatList data={albums} keyExtractor={item => item.id} renderItem={item => <ListComponent {...item} type="album" />} />
+      <FlatList data={albums} keyExtractor={item => item.id} renderItem={item => <ListComponent {...item} type="album" />} navigation={navigation}  />
     </View>
   );
 }
 
-const Artists = () => {
+const Artists = ({ navigation }) => {
   const [artists, setArtists] = useState([]);
 
   useEffect(() => {
@@ -130,13 +132,16 @@ const Artists = () => {
 
   return (
     <View>
-      <FlatList data={artists} keyExtractor={item => item.id} renderItem={item => <ListComponent {...item} isArtist  type="artist"/>}/>
+      <FlatList data={artists} keyExtractor={item => item.id} renderItem={item => <ListComponent {...item} isArtist  type="artist"/>} navigation={navigation} />
     </View>
   );
 }
 
 export default () => (
-  <Tab.Navigator tabBar={MyTabBar} >
+  <Tab.Navigator 
+    tabBar={MyTabBar} 
+    children={props => ({...props})}
+  >
     <Tab.Screen  name="Playlists" component={Playlists} />
     <Tab.Screen  name="Artists"   component={Artists}   />
     <Tab.Screen  name="Albums"    component={Albums}    />
