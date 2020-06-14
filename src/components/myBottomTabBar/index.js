@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Animated, YellowBox }   from 'react-native';
 import { bindActionCreators }                                   from 'redux';
 import { connect }                                              from 'react-redux';
 
 import { PanGestureHandler, State, TouchableOpacity }           from 'react-native-gesture-handler';
-import { changeMusic }                                          from '../../pages/actions';
+import { changeMusic, playPauseMusic }                          from '../../pages/actions';
 import { BottomTabBar } from '@react-navigation/bottom-tabs';
 
 import MaterialCommunityIcons                                   from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 YellowBox.ignoreWarnings([ '`useNativeDriver` was not specified.' ]);
 
@@ -19,8 +18,17 @@ const MUSIC_PLAYER_DATA = [
 ];
 
 const PlayerToggled = (props) => {
+  const { 
+    index, 
+    navigation, 
+    track 
+  } = props;
 
-  const { index, navigation } = props;
+  const [favoriteIcon, setFavoriteIcon] = useState({ name: "heart-outline", color: "#FFFFFF" });
+
+  const onFavoritePressed = () => {
+    setFavoriteIcon(favoriteIcon.name === "heart"? { name:"heart-outline", color: "#FFFFFF" } : { name: "heart", color: "#1CB954"});
+  }
 
   let opened = false;
   let position = 0;
@@ -36,17 +44,16 @@ const PlayerToggled = (props) => {
   
   const handleAlbumArtStateChand = event => { 
     if (event.nativeEvent.oldState === State.ACTIVE) {
-
       const { translationX } = event.nativeEvent;
       offset                += translationX;
   
       if(translationX >= 80) {
-        opened   =  MUSIC_PLAYER_DATA[index-1]? 1:0;
-        position = opened? -1 : 0;
+       opened = true;
+       position = opened? -1 : 0;
       } 
-
+      
       else if(translationX <= -80){
-        opened   =  MUSIC_PLAYER_DATA[index+1]? 1:0;
+        opened = true;
         position = opened? 1: 0;
       }
 
@@ -71,21 +78,22 @@ const PlayerToggled = (props) => {
   }
 
   return (
-    <View 
-      onTouchEnd={
-        () => navigation.navigate('PlayerView', {
-          MUSIC_PLAYER_DATA,
-          playlist_name: 'Daily Mix 1'
-        })
-      } 
-    >
+    <View>
       <View style={{width: "100%", backgroundColor: "#999"}}>
         <View style={{width: 120, backgroundColor: "#FFFFFF", height:2.5}} />
       </View>
 
       <View style={styles.playerToggled}>
+        <View onTouchEnd={
+          () => navigation.navigate('PlayerView', {
+            MUSIC_PLAYER_DATA,
+            playlist_name: 'Daily Mix 1'
+          })
+        }
+
+        style={{flex:1, flexDirection: "row"}} >
         <Image style={styles.playerToggledAlbumMiniArt} 
-          source={{uri: MUSIC_PLAYER_DATA[index].album_art}} 
+          source={{uri: `https://i.scdn.co/image/${track.image_uri}`}} 
         />
         <View style={{flexDirection: "row", justifyContent: "space-between", flex:1,}}>
           
@@ -97,20 +105,23 @@ const PlayerToggled = (props) => {
               extrapolate: "clamp",
             })}]
           }}>
-              <Text style={{fontSize: 14, fontWeight: "bold" , color: "#FFFFFF"}} >{MUSIC_PLAYER_DATA[index].music}</Text>
-              <Text style={{fontSize: 14, fontWeight: "bold" , color: "#ADADAD"}}> • {MUSIC_PLAYER_DATA[index].artist}</Text>
+            { track.name !== '' && track.artist_name !== '' &&
+              <>
+                <Text style={{fontSize: 14, fontWeight: "bold" , color: "#FFFFFF"}} >{track.track_name}</Text>
+                <Text style={{fontSize: 14, fontWeight: "bold" , color: "#ADADAD"}}> • {track.artist_name}</Text>            
+              </>
+            }
             </Animated.View>
           </PanGestureHandler>
-
-
+        </View>
         </View>
         <View style={{ width: '18%', flexDirection: "row",backgroundColor: "#282828",alignItems: "center",  paddingLeft:10}}>
 
-          <TouchableOpacity>
-            <MaterialCommunityIcons style={{marginRight: 5}} name="heart" size={25} color="#1CB954" />
+          <TouchableOpacity onPress={onFavoritePressed} disabled={track.name === ''? true: false} >
+            <MaterialCommunityIcons style={{marginRight: 5}} {...favoriteIcon} size={25} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialCommunityIcons name="pause" size={30} color="#FFFFFF" />
+          <TouchableOpacity onPress={props.playPauseMusic} disabled={track.name === ''? true: false} >
+            <MaterialCommunityIcons name={props.playMusic? "pause": "play"} color="#FFFFFF" size={30} />
           </TouchableOpacity>
         </View>
       </View>
@@ -132,16 +143,17 @@ const styles = StyleSheet.create({
   }
 })
 
-
-
 const MyBottomTabBar = props => 
 <>
   <PlayerToggled {...props}  />
   <BottomTabBar {...props} />
 </>
 
-
-const mapStateToProps    = state => ({ index: state.player.index });
-const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic }, dispatch);
+const mapStateToProps    = state => ({ 
+  index: state.player.index, 
+  track: state.player.track,
+  playMusic: state.player.playMusic 
+});
+const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic, playPauseMusic }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyBottomTabBar);

@@ -8,13 +8,13 @@ import Ionicons                                from 'react-native-vector-icons/I
 import MaterialIcons                           from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons                  from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { changeMusic  }                        from '../actions';
+import { changeMusic, playPauseMusic  }        from '../actions';
 
 
 const WINDOW = Dimensions.get("window");
 
 const PlayerView = (props) => {
-  const { navigation, route, index } = props;
+  const { navigation, route, index, track } = props;
 
   let opened = false;
   let position = 0;
@@ -49,11 +49,13 @@ const PlayerView = (props) => {
       offset                += translationX;
 
       if(translationX >= 80) {
-        opened   =  MUSIC_PLAYER_DATA[index-1]? 1:0;
+        //opened   =  MUSIC_PLAYER_DATA[index-1]? 1:0;
+        opened   = true;
         position = opened? -1: 0;
       } 
       else if(translationX <= -80){
-        opened   =  MUSIC_PLAYER_DATA[index+1]? 1:0;
+        opened   = true;
+        //opened   =  MUSIC_PLAYER_DATA[index+1]? 1:0;
         position = opened? 1: 0;
       }
       else {
@@ -119,14 +121,14 @@ const PlayerView = (props) => {
             }) }]
             
           }}>
-            <Image style={{width: 360, height: 360,}} source={{uri: MUSIC_PLAYER_DATA[index].album_art}} />
+            <Image style={{width: 360, height: 360,}} source={{uri: `https://i.scdn.co/image/${track.image_uri}`}} />
           </Animated.View>
         </PanGestureHandler>
       </View>
 
       <View style={{paddingHorizontal: 10, paddingVertical: 12.5}}>
-        <Text style={{color: "#FFFFFF", fontSize: 20, fontWeight: "bold"}} >{MUSIC_PLAYER_DATA[index].music}</Text>
-        <Text style={{fontSize: 17, color: "#CFCFCF"}} >{MUSIC_PLAYER_DATA[index].artist}</Text>
+        <Text style={{color: "#FFFFFF", fontSize: 20, fontWeight: "bold"}} >{track.track_name}</Text>
+        <Text style={{fontSize: 17, color: "#CFCFCF"}} >{track.artist_name}</Text>
       </View>
 
       <View style={{flexDirection: "column", paddingHorizontal: 10, }}>
@@ -172,8 +174,8 @@ const PlayerView = (props) => {
           <TouchableOpacity>
             <MaterialIcons style={{}} name="skip-previous" size={45} color="#FFFFFF" />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <MaterialIcons style={{}} name="pause-circle-filled" size={75} color="#FFFFFF" />
+          <TouchableOpacity onPress={props.playPauseMusic} >
+            <MaterialIcons style={{}} name={props.playMusic? "pause-circle-filled":"play-circle-filled"} size={75} color="#FFFFFF" />
           </TouchableOpacity>
           <TouchableOpacity>
             <MaterialIcons style={{}} name="skip-next" size={45} color="#FFFFFF" />
@@ -196,7 +198,12 @@ const PlayerView = (props) => {
   );
 }
 
-const mapStateToProps = state => ({ index: state.player.index });
-const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic }, dispatch);
+const mapStateToProps = state => ({ 
+  index: state.player.index, 
+  track: state.player.track,
+  playMusic: state.player.playMusic
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({ changeMusic, playPauseMusic }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayerView);
