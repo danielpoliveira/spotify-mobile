@@ -43,19 +43,19 @@ const PlayerView = (props) => {
     useNativeDriver: true,
   });
 
+  const VALUE = 400;
+ 
   const handleAlbumArtStateChand = (event) => { 
     if (event.nativeEvent.oldState === State.ACTIVE) {
       const { translationX } = event.nativeEvent;
       offset                += translationX;
 
       if(translationX >= 80) {
-        //opened   =  MUSIC_PLAYER_DATA[index-1]? 1:0;
         opened   = true;
         position = opened? -1: 0;
       } 
       else if(translationX <= -80){
         opened   = true;
-        //opened   =  MUSIC_PLAYER_DATA[index+1]? 1:0;
         position = opened? 1: 0;
       }
       else {
@@ -65,20 +65,16 @@ const PlayerView = (props) => {
       }
        
       Animated.timing(AlbumArtTranslationX, {
-        toValue: opened? -position * 400 : 0,
-        duration: 200,
+        toValue: opened? -position * VALUE : 0,
+        duration: 100,
         useNativeDriver: true,
       }).start(() => {
-        offset = opened? -position * 400 : 0;
+        offset = opened? -position * VALUE : 0;
         AlbumArtTranslationX.setOffset(offset);
         AlbumArtTranslationX.setValue(0);
-
-        console.log(index)
         
-        opened && props.changeMusic(index+position)
-
-       
-        console.log(index)
+        opened && 
+          props.changeMusic(position) 
       });
     }
   }

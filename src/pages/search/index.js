@@ -28,7 +28,7 @@ const GenderView = props =>
   <Text style={{ marginLeft: 10, marginTop: 15, color:"#FFFFFF"}}>{props.item.name}</Text>
 </View>
   
-export default () => {
+export default ({ navigation }) => {
   const [categories, setCategories] = useState({});
   const [imgs, setImgs] = useState([]);
 
@@ -72,12 +72,12 @@ export default () => {
 
       <View style={styles.searchHeaderView}>
         <Text style={styles.searchTitle}>Buscar</Text>  
-        <TouchableOpacity style={styles.searchButtonArea}>
+
+        <TouchableOpacity style={styles.searchButtonArea} onPress={() => navigation.navigate('SearchResult')} >
           <Ionicons name="ios-search" size={20}  />
-          <Text style={styles.searchButtonTitle} >
-            Artistas, músicas ou podcasts
-          </Text>
+          <Text style={styles.searchButtonTitle} >Artistas, músicas ou podcasts</Text>
         </TouchableOpacity>
+
       </View>
 
       <ScrollView style={{marginBottom: 180}} showsVerticalScrollIndicator={false}>

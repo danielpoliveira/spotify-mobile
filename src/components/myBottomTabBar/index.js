@@ -42,6 +42,8 @@ const PlayerToggled = (props) => {
     useNativedriver: true,
   });
   
+  const VALUE = 300;
+
   const handleAlbumArtStateChand = event => { 
     if (event.nativeEvent.oldState === State.ACTIVE) {
       const { translationX } = event.nativeEvent;
@@ -64,15 +66,16 @@ const PlayerToggled = (props) => {
       }
        
       Animated.timing(MusicTranslateX, {
-        toValue: opened? -position * 300 : 0,
-        duration: 200,
+        toValue: opened? -position * VALUE : 0,
+        duration: 100,
         useNativeDriver: true
       }).start(() => {
-        offset = opened? -position * 300 : 0;
+        offset = opened? -position * VALUE : 0;
         MusicTranslateX.setOffset(offset);
         MusicTranslateX.setValue(0);
 
-        opened && props.changeMusic(index+position);
+        opened && 
+          props.changeMusic(position);
       });
     }
   }

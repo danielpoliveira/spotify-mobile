@@ -23,9 +23,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case 'MUSIC_CHANGED': 
-      const change = state.index > action.payload? true: false;
-
-      change? Spotify.onPrev(): Spotify.onNext();
+      
       return {
         ...state,
         playMusic: !change? true: state.playMusic,

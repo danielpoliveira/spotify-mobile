@@ -6,18 +6,18 @@ export const playPauseMusic = () => ({
 
 export const changeMusic = value => {
   return dispatch => {
-    dispatch({
-      type: "MUSIC_CHANGED",
-      payload: value,
-    });
+    value > 0 ? 
+      Spotify.onNext() 
+    : 
+      Spotify.onPrev()
 
-    setTimeout(() => dispatch(getCurrentTrack()), 250);
-  }
+    setTimeout(() => dispatch(getCurrentTrack()), 400);
+  };
 }
 
 export const getCurrentTrack = (value = false) => {
   return dispatch => {    
-    (value ? 
+    (value ?
       Spotify.onStart() 
     : 
       Spotify.getTrack()
