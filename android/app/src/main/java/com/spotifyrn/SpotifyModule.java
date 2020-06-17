@@ -29,7 +29,7 @@ import com.spotify.protocol.types.Track;
 public class SpotifyModule extends ReactContextBaseJavaModule {
   private static ReactApplicationContext reactContext;
 
-  private static final String CLIENT_ID      =  "88411d7a4c714d84aba16fa0fdf18312";
+  private static final String CLIENT_ID      = "456b40513ce2417ca0584f7fdc405610";
   private static final String REDIRECT_URI   = "https://example.com/callback";
   private static final String E_LAYOUT_ERROR = "E_LAYOUT_ERROR";
   
@@ -174,10 +174,9 @@ public class SpotifyModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void onNext(){
-    if(!getConnect()){
+  public void onNext() {
+    if(!getConnect())
       startConnection();
-    }
     
     if(!getPlay()) setPlay(true);
 
@@ -186,10 +185,9 @@ public class SpotifyModule extends ReactContextBaseJavaModule {
   
   @ReactMethod
   public void onPrev(){
-    if(!getConnect()){
+    if(!getConnect())
       startConnection();
-    }
-
+    
     mSpotifyAppRemote.getPlayerApi().skipPrevious();
   }
     

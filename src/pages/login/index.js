@@ -9,7 +9,7 @@ import { getCurrentTrack }         from "../actions";
 
 import { onSignIn }                from '../../services/auth';
 
-import { client_id, secret_id }    from '../../config/auth.json';
+import {client_id, client_secret}  from '../../config/auth.json';
 import { scopes, url_login }       from '../../config/config.json';
 import { 
   redirect_uri, 
@@ -29,7 +29,7 @@ const Login = ({ navigation, getCurrentTrack }) => {
       logged = true;
       
       const params  = setParams(code);
-      const access  = 'Basic ' + new Buffer(client_id +':'+ secret_id).toString('base64');
+      const access  = 'Basic ' + new Buffer(client_id +':'+ client_secret).toString('base64');
 
       await axios.post(`${url_login}/api/token`, params, { 
         headers: {
