@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 Node.js and React Native basic usage dependencies.
-Spotify Music App installed on your the device (Download link for android: https://play.google.com/store/apps/details?id=com.spotify.music).
+Spotify Music App installed on your the device. [Download link for android](https://play.google.com/store/apps/details?id=com.spotify.music).
 
 ### Installing
 
